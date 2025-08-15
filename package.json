@@ -1,0 +1,134 @@
+{
+  "name": "lit-toaster",
+  "version": "0.0.0",
+  "engines": {
+    "node": ">=20",
+    "npm": ">=9.6.3",
+    "yarn": "please use npm",
+    "pnpm": "please use npm"
+  },
+  "description": "Notifications for Lit Web Components",
+  "type": "module",
+  "main": "./dist/lit-toaster.js",
+  "module": "./dist/lit-toaster.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build:full": "npm run build && npm run docs",
+    "build": "rollup -c",
+    "test": "vitest run",
+    "coverage": "vitest run --coverage",
+    "lint": "eslint . --ext .js",
+    "format": "prettier --write .",
+    "docs": "typedoc --plugin typedoc-plugin-markdown",
+    "release": "release-it",
+    "release:dry": "release-it --dry-run --no-npm",
+    "release:info": "release-it --release-version",
+    "release:changelog:fix": "auto-changelog -p && git add CHANGELOG.md",
+    "size": "size-limit --json > size-report.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/brysonbw/lit-toaster.git"
+  },
+  "keywords": [
+    "lit",
+    "lit web components",
+    "toast",
+    "toast notifications",
+    "notifications",
+    "snackbar"
+  ],
+  "author": "Bryson Ward",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/brysonbw/lit-toaster/issues"
+  },
+  "homepage": "https://github.com/brysonbw/lit-toaster",
+  "contributors": [
+    "Bryson Ward (https://github.com/brysonbw)"
+  ],
+  "dependencies": {
+    "lit": "^3.3.1"
+  },
+  "devDependencies": {
+    "@rollup/plugin-node-resolve": "^16.0.1",
+    "@rollup/plugin-typescript": "^12.1.4",
+    "@size-limit/file": "^11.2.0",
+    "@testing-library/jest-dom": "^6.7.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/eslint-plugin-security": "^3.0.0",
+    "@types/jest": "^30.0.0",
+    "@vitest/coverage-v8": "^3.2.4",
+    "auto-changelog": "^2.5.0",
+    "eslint": "^9.33.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-lit": "^2.1.1",
+    "eslint-plugin-prettier": "^5.5.4",
+    "eslint-plugin-security": "^3.0.1",
+    "jsdom": "^26.1.0",
+    "prettier": "^3.6.2",
+    "release-it": "^19.0.4",
+    "rollup": "^4.46.2",
+    "rollup-plugin-cleanup": "^3.2.1",
+    "rollup-plugin-delete": "^3.0.1",
+    "rollup-plugin-dts": "^6.2.1",
+    "size-limit": "^11.2.0",
+    "tslib": "^2.8.1",
+    "typedoc": "^0.28.10",
+    "typedoc-plugin-markdown": "^4.8.1",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.39.1",
+    "vitest": "^3.2.4"
+  },
+  "release-it": {
+    "git": {
+      "commitMessage": "chore(release): v${version}",
+      "push": true,
+      "commit": true,
+      "tag": true,
+      "requireCommits": false,
+      "requireCleanWorkingDir": false
+    },
+    "github": {
+      "release": true,
+      "draft": true
+    },
+    "npm": {
+      "publish": false,
+      "ignoreVersion": false
+    },
+    "hooks": {
+      "before:init": [
+        "npm run lint",
+        "npm run test"
+      ],
+      "after:bump": "npm run build:full && git add ./dist ./docs/api-reference ./package-lock.json",
+      "before:release": "npm run release:changelog:fix",
+      "after:release": "echo Successfully released ${name} v${version} to ${repo.repository}."
+    }
+  },
+  "auto-changelog": {
+    "breakingPattern": "Breaking change"
+  },
+  "typedocOptions": {
+    "entryPoints": [
+      "src/typedoc.ts"
+    ],
+    "disableSources": true,
+    "out": "docs/api-reference",
+    "readme": "none",
+    "name": "Lit Toaster API Reference"
+  },
+  "size-limit": [
+    {
+      "path": "dist/lit-toaster.js",
+      "name": "Browser build (ESM)",
+      "limit": "10kB",
+      "gzip": true
+    }
+  ]
+}
