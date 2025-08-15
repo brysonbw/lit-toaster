@@ -51,6 +51,9 @@
   "contributors": [
     "Bryson Ward (https://github.com/brysonbw)"
   ],
+  "peerDependencies": {
+    "lit": "^3.3.1"
+  },
   "dependencies": {
     "lit": "^3.3.1"
   },
@@ -77,7 +80,6 @@
     "rollup-plugin-delete": "^3.0.1",
     "rollup-plugin-dts": "^6.2.1",
     "size-limit": "^11.2.0",
-    "tslib": "^2.8.1",
     "typedoc": "^0.28.10",
     "typedoc-plugin-markdown": "^4.8.1",
     "typescript": "^5.9.2",
@@ -127,7 +129,7 @@
     {
       "path": "dist/lit-toaster.js",
       "name": "Browser build (ESM)",
-      "limit": "10kB",
+      "limit": "5kB",
       "gzip": true
     }
   ]
