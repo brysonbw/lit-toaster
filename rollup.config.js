@@ -16,7 +16,7 @@ export default [
   // Browser build (ESM)
   {
     input: 'src/index.ts',
-    external: ['lit'],
+    external: ['lit', 'lit/decorators.js'],
     output: {
       file: `dist/${pkgName}.js`,
       format: 'esm',
