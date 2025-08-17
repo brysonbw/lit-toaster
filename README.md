@@ -15,6 +15,14 @@
 <div align="center">Simple, lightweight, and easy to integrate.</div>
 <br />
 
+<div align="center">
+<a href="https://lit-toaster.com/">Website</a> 
+<span> · </span>
+<a href="https://github.com/brysonbw/lit-toaster/blob/main/docs/api-reference/README.md">Documentation</a> 
+<span> · </span>
+<a href="https://www.npmjs.com/package/lit-toaster">NPM Package</a> 
+</div>
+
 ## Installation
 
 ```bash
