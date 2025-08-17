@@ -48,7 +48,5 @@ declare global {
     }
 }
 
-declare const GUID: () => string;
-
-export { GUID, ToastEmitter, ToastEmitterEvent, ToasterElement, toast };
+export { ToastEmitterEvent, ToasterElement, toast };
 export type { Toast, ToastKind, ToastPosition };
