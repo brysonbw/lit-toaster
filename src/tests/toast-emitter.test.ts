@@ -8,18 +8,18 @@ import { TOAST_ANIMATION_DURATION } from '../constants.ts';
 
 describe('Toast Emitter', () => {
   let toast!: ToastEmitter | null;
-  let onQueueLimitChange: ReturnType<typeof vi.fn>;
+  let onToastsLimitChange: ReturnType<typeof vi.fn>;
   let onToastsChange: ReturnType<typeof vi.fn>;
 
   beforeEach(() => {
     vi.useFakeTimers();
     vi.resetAllMocks();
     toast = new ToastEmitter();
-    onQueueLimitChange = vi.fn();
+    onToastsLimitChange = vi.fn();
     onToastsChange = vi.fn();
     toast?.addEventListener(
-      ToastEmitterEvent.QUEUE_LIMIT_CHANGE,
-      onQueueLimitChange
+      ToastEmitterEvent.TOASTS_LIMIT_CHANGE,
+      onToastsLimitChange
     );
     toast?.addEventListener(ToastEmitterEvent.TOASTS_CHANGE, onToastsChange);
   });
@@ -27,8 +27,8 @@ describe('Toast Emitter', () => {
   afterEach(() => {
     if (toast) {
       toast?.addEventListener(
-        ToastEmitterEvent.QUEUE_LIMIT_CHANGE,
-        onQueueLimitChange
+        ToastEmitterEvent.TOASTS_LIMIT_CHANGE,
+        onToastsLimitChange
       );
       toast.removeEventListener(
         ToastEmitterEvent.TOASTS_CHANGE,
@@ -39,12 +39,12 @@ describe('Toast Emitter', () => {
     vi.useRealTimers();
   });
 
-  describe(`${ToastEmitterEvent.QUEUE_LIMIT_CHANGE} event`, () => {
-    it('dispatches event via queueLimit setter', () => {
-      const updatedQueueLimit = 10;
-      toast.queueLimit = updatedQueueLimit;
-      expect((toast as any)._queueLimit).toEqual(updatedQueueLimit);
-      expect(onQueueLimitChange).toHaveBeenCalledTimes(1);
+  describe(`${ToastEmitterEvent.TOASTS_LIMIT_CHANGE} event`, () => {
+    it('dispatches event via toastsLimit setter', () => {
+      const updatedToastsLimit = 10;
+      toast.toastsLimit = updatedToastsLimit;
+      expect((toast as any)._toastsLimit).toEqual(updatedToastsLimit);
+      expect(onToastsLimitChange).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -125,41 +125,41 @@ describe('Toast Emitter', () => {
     });
 
     it(`dispatches ${ToastEmitterEvent.TOASTS_CHANGE} event via show() method for 'Too many notifications' warning`, () => {
-      let queueLimitWarningToast: Toast = getToastObject(
+      let toastsLimitWarningToast: Toast = getToastObject(
         'Too many notifications. Please wait a moment and/or close existing ones.',
         undefined,
         'warning',
         'bottom-center'
       );
-      for (let i = 0; i <= toast._queueLimit - 1; i++) {
+      for (let i = 0; i <= toast._toastsLimit - 1; i++) {
         toast?.show('This is a toast message!', 7000, 'success', 'top-center');
       }
       expect(toast?.toasts.length).toEqual(7);
-      queueLimitWarningToast.id = toast?.toasts[6].id;
-      expect(toast?.toasts[6]).toEqual(queueLimitWarningToast);
+      toastsLimitWarningToast.id = toast?.toasts[0].id;
+      expect(toast?.toasts[0]).toEqual(toastsLimitWarningToast);
     });
   });
 
-  describe('queueLimit setter', () => {
-    it('sets new queueLimit from number value', () => {
-      const newQueueLimit = 10;
-      toast.queueLimit = newQueueLimit;
-      expect(toast?._queueLimit).toBeDefined();
-      expect(toast?._queueLimit).toBeTypeOf('number');
-      expect(toast?._queueLimit).toEqual(newQueueLimit);
+  describe('toastsLimit setter', () => {
+    it('sets new toastsLimit from number value', () => {
+      const newToastsLimit = 10;
+      toast.toastsLimit = newToastsLimit;
+      expect(toast?._toastsLimit).toBeDefined();
+      expect(toast?._toastsLimit).toBeTypeOf('number');
+      expect(toast?._toastsLimit).toEqual(newToastsLimit);
     });
 
-    it('sets new queueLimit value from string (number) value', () => {
+    it('sets new toastsLimit value from string (number) value', () => {
       const toast = new ToastEmitter();
-      const newQueueLimit = '10';
-      toast.queueLimit = newQueueLimit;
-      expect(toast?._queueLimit).toBeDefined();
-      expect(toast?._queueLimit).toBeTypeOf('number');
-      expect(toast?._queueLimit).toEqual(Number(10));
+      const newToastsLimit = '10';
+      toast.toastsLimit = newToastsLimit;
+      expect(toast?._toastsLimit).toBeDefined();
+      expect(toast?._toastsLimit).toBeTypeOf('number');
+      expect(toast?._toastsLimit).toEqual(Number(10));
     });
 
-    it('sets queueLimit to provided valid value or default if new value is not typeof number', () => {
-      const defaultValue = toast._queueLimit;
+    it('sets toastsLimit to provided valid value or default if new value is not typeof number', () => {
+      const defaultValue = toast._toastsLimit;
       const validValue = 10;
       const cases = [
         {},
@@ -173,28 +173,28 @@ describe('Toast Emitter', () => {
 
       // Sets default value
       for (const i of cases) {
-        toast.queueLimit = i;
-        expect(toast?._queueLimit).toBeDefined();
-        expect(toast?._queueLimit).toBeTypeOf('number');
-        expect(toast._queueLimit).toEqual(defaultValue);
+        toast.toastsLimit = i;
+        expect(toast?._toastsLimit).toBeDefined();
+        expect(toast?._toastsLimit).toBeTypeOf('number');
+        expect(toast._toastsLimit).toEqual(defaultValue);
       }
 
-      toast.queueLimit = validValue;
+      toast.toastsLimit = validValue;
       // Sets to previous valid value
       for (const i of cases) {
-        toast.queueLimit = i;
-        expect(toast?._queueLimit).toBeDefined();
-        expect(toast?._queueLimit).toBeTypeOf('number');
-        expect(toast._queueLimit).toEqual(validValue);
+        toast.toastsLimit = i;
+        expect(toast?._toastsLimit).toBeDefined();
+        expect(toast?._toastsLimit).toBeTypeOf('number');
+        expect(toast._toastsLimit).toEqual(validValue);
       }
     });
 
-    it(`sets new queueLimit value to 0 (no limit) if provided value is less than 0`, () => {
-      const newQueueLimit = -10;
-      toast.queueLimit = newQueueLimit;
-      expect(toast?._queueLimit).toBeDefined();
-      expect(toast?._queueLimit).toBeTypeOf('number');
-      expect(toast?._queueLimit).toEqual(0);
+    it(`sets new toastsLimit value to 0 (no limit) if provided value is less than 0`, () => {
+      const newToastsLimit = -10;
+      toast.toastsLimit = newToastsLimit;
+      expect(toast?._toastsLimit).toBeDefined();
+      expect(toast?._toastsLimit).toBeTypeOf('number');
+      expect(toast?._toastsLimit).toEqual(0);
     });
   });
 });

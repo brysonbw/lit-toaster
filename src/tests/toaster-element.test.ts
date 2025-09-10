@@ -68,35 +68,35 @@ describe('<app-toaster> element', () => {
   });
 
   describe('properties', () => {
-    describe('queueLimit', () => {
+    describe('toastsLimit', () => {
       it('has undefined default value', async () => {
-        const toastQueueLimitDefault = 7;
+        const toastToastsLimitDefault = 7;
         expect(appToasterElement).toBeDefined();
-        expect(appToasterElement?.queueLimit).toBeUndefined();
+        expect(appToasterElement?.toastsLimit).toBeUndefined();
 
-        // Element property undefined, yet toast (emitter) queueLimit will still take effect
-        expect((toast as any)._queueLimit).toEqual(toastQueueLimitDefault);
+        // Element property undefined, yet toast (emitter) toastsLimit will still take effect
+        expect((toast as any)._toastsLimit).toEqual(toastToastsLimitDefault);
       });
 
-      it('updates when set with new value and updates ToastEmitter queueLimit instance variable', async () => {
-        const newQueueLimit = 10;
+      it('updates when set with new value and updates ToastEmitter toastsLimit instance variable', async () => {
+        const newToastsLimit = 10;
         expect(appToasterElement).toBeDefined();
-        expect(appToasterElement?.queueLimit).toBeUndefined();
+        expect(appToasterElement?.toastsLimit).toBeUndefined();
 
-        appToasterElement.queueLimit = newQueueLimit;
+        appToasterElement.toastsLimit = newToastsLimit;
         // Element property set, so toast (emitter) get's set to same value
-        expect((toast as any)._queueLimit).toEqual(newQueueLimit);
+        expect((toast as any)._toastsLimit).toEqual(newToastsLimit);
       });
 
-      it('updates when set with new value via ToastEmitter queueLimit setter', async () => {
-        const newQueueLimit = 10;
+      it('updates when set with new value via ToastEmitter toastsLimit setter', async () => {
+        const newToastsLimit = 10;
         expect(appToasterElement).toBeDefined();
-        expect(appToasterElement?.queueLimit).toBeUndefined();
+        expect(appToasterElement?.toastsLimit).toBeUndefined();
 
-        toast.queueLimit = newQueueLimit;
+        toast.toastsLimit = newToastsLimit;
 
-        expect((toast as any)._queueLimit).toEqual(newQueueLimit);
-        expect(appToasterElement.queueLimit).toEqual(newQueueLimit);
+        expect((toast as any)._toastsLimit).toEqual(newToastsLimit);
+        expect(appToasterElement.toastsLimit).toEqual(newToastsLimit);
       });
     });
   });

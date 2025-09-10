@@ -7,27 +7,27 @@ import { TOAST_TYPES } from './constants.ts';
 @customElement('app-toaster')
 export class ToasterElement extends LitElement {
   @property({ type: Number, attribute: false })
-  set queueLimit(value: number | undefined) {
-    this._queueLimit = value;
+  set toastsLimit(value: number | undefined) {
+    this._toastsLimit = value;
     if (value !== undefined) {
-      // Update ToastEmitter queueLimit instance variable value to match element queueLimit property value
-      toast.queueLimit = value;
+      // Update ToastEmitter toastsLimit instance variable value to match element toastsLimit property value
+      toast.toastsLimit = value;
     }
   }
-  get queueLimit(): number | undefined {
-    return this._queueLimit;
+  get toastsLimit(): number | undefined {
+    return this._toastsLimit;
   }
   @state()
   private _toastsList: Toast[] = [];
   @state()
-  private _queueLimit?: number;
+  private _toastsLimit?: number;
 
   // Add/remove event listeners for ToastEmitter events
   connectedCallback(): void {
     super.connectedCallback();
     toast.addEventListener(
-      ToastEmitterEvent.QUEUE_LIMIT_CHANGE,
-      this.onQueueLimitChange
+      ToastEmitterEvent.TOASTS_LIMIT_CHANGE,
+      this.onToastsLimitChange
     );
     toast.addEventListener(
       ToastEmitterEvent.TOASTS_CHANGE,
@@ -38,8 +38,8 @@ export class ToasterElement extends LitElement {
   disconnectedCallback(): void {
     super.disconnectedCallback();
     toast.removeEventListener(
-      ToastEmitterEvent.QUEUE_LIMIT_CHANGE,
-      this.onQueueLimitChange
+      ToastEmitterEvent.TOASTS_LIMIT_CHANGE,
+      this.onToastsLimitChange
     );
     toast.removeEventListener(
       ToastEmitterEvent.TOASTS_CHANGE,
@@ -50,7 +50,7 @@ export class ToasterElement extends LitElement {
   /**
    * A map that groups each toast position with its own list of toasts
    * @example { "top-left": [Toast, Toast], "bottom-right": [Toast], ... }
-   * @satisfies Ensures each position’s toast queue has its own independent index starting at 0
+   * @satisfies Ensures each position’s toast stack has its own independent index starting at 0
    */
   private get groupedToasts(): Record<ToastPosition, Toast[]> {
     const toastGroups = {} as Record<ToastPosition, Toast[]>;
@@ -132,14 +132,14 @@ export class ToasterElement extends LitElement {
   }
 
   /**
-   * Handle toast `queue-limit-change` event - get updated queue limit
+   * Handle toast `toasts-limit-change` event - get updated toasts limit
    * @param event
    */
-  private onQueueLimitChange = (event: Event): void => {
+  private onToastsLimitChange = (event: Event): void => {
     if (event instanceof CustomEvent) {
-      // Update element queueLimit property value to match ToastEmitter queueLimit instance variable value
-      if (event.detail !== undefined && this._queueLimit !== event.detail) {
-        this._queueLimit = event.detail;
+      // Update element toastsLimit property value to match ToastEmitter toastsLimit instance variable value
+      if (event.detail !== undefined && this._toastsLimit !== event.detail) {
+        this._toastsLimit = event.detail;
         this.requestUpdate();
       }
     }

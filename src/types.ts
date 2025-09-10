@@ -22,9 +22,9 @@ export type Toast = {
  */
 export enum ToastEmitterEvent {
   /**
-   * Dispatched when the queue limit changes via the `queueLimit` setter. Event detail (`event.detail`) contains the updated queue limit as a number
+   * Dispatched when the toasts limit changes via the `toastsLimit` setter. Event detail (`event.detail`) contains the updated toasts limit as a number
    */
-  QUEUE_LIMIT_CHANGE = 'queue-limit-change',
+  TOASTS_LIMIT_CHANGE = 'toasts-limit-change',
   /**
    * Dispatched when a new toast is added to the toasts list via the `show()` method. Event detail (`event.detail`) contains the updated toasts list as an array
    */
