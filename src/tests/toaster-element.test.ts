@@ -26,9 +26,6 @@ describe('<app-toaster> element', () => {
   });
 
   it(`renders toast message on ${ToastEmitterEvent.TOASTS_CHANGE} event`, async () => {
-    // Wait for connectedCallback to finish setting up listener
-    await new Promise((r) => setTimeout(r, 10));
-
     const emittedToast: Partial<Toast> = {
       message: 'Toast emitted and created successfully!',
       duration: 7000,
@@ -56,8 +53,8 @@ describe('<app-toaster> element', () => {
     );
     const toastContainerEl = toastEl?.parentElement;
 
-    expect(toastContainerEl).toBeDefined();
-    expect(toastEl).toBeDefined();
+    expect(toastContainerEl).not.toBeNull();
+    expect(toastEl).not.toBeNull();
 
     expect(toastEl?.textContent).toContain('✓');
     expect(toastEl?.textContent).toContain(emittedToast.message);
@@ -101,6 +98,59 @@ describe('<app-toaster> element', () => {
         expect((toast as any)._queueLimit).toEqual(newQueueLimit);
         expect(appToasterElement.queueLimit).toEqual(newQueueLimit);
       });
+    });
+  });
+
+  describe('toast animations', () => {
+    beforeEach(() => {
+      vi.useFakeTimers();
+      vi.resetAllMocks();
+    });
+
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+
+    it('handles enter and leave toast animation states', async () => {
+      vi.spyOn(toast, 'remove');
+
+      const emittedToast: Partial<Toast> = {
+        message: 'Toast emitted and created successfully!',
+        duration: 7000,
+        type: 'success',
+        position: 'top-right',
+      };
+
+      // Emit toast
+      toast.show(
+        emittedToast.message as string,
+        emittedToast.duration,
+        emittedToast.type,
+        emittedToast.position
+      );
+
+      if (appToasterElement && 'updateComplete' in appToasterElement) {
+        await appToasterElement.updateComplete;
+      }
+
+      // Toast element
+      const toastEl = appToasterElement.shadowRoot?.querySelector(
+        `#toast-${emittedToast.type}-1`
+      );
+      expect(toastEl).not.toBeNull();
+
+      // Initial state
+      expect((appToasterElement as any)._toastsList[0].state).toEqual('enter');
+      expect(toastEl?.classList.contains('enter')).toBe(true);
+      expect(toastEl?.classList.contains('leave')).toBe(false);
+
+      // Advance time with toast duration
+      vi.advanceTimersByTime(emittedToast.duration);
+
+      // After state change. Now in 'leave' state
+      expect(toast.toasts[0].state).toEqual('leave');
+      await appToasterElement.updateComplete;
+      expect((appToasterElement as any)._toastsList[0].state).toEqual('leave');
     });
   });
 });

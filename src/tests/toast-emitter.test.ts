@@ -3,21 +3,25 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { ToastEmitter } from '../toast-emitter.ts';
 import { Toast, ToastEmitterEvent } from '../types.ts';
+import { getToastObject } from '../testing/mocks/toast.ts';
+import { TOAST_ANIMATION_DURATION } from '../constants.ts';
 
 describe('Toast Emitter', () => {
   let toast!: ToastEmitter | null;
   let onQueueLimitChange: ReturnType<typeof vi.fn>;
-  let onToastChange: ReturnType<typeof vi.fn>;
+  let onToastsChange: ReturnType<typeof vi.fn>;
 
   beforeEach(() => {
+    vi.useFakeTimers();
+    vi.resetAllMocks();
     toast = new ToastEmitter();
     onQueueLimitChange = vi.fn();
-    onToastChange = vi.fn();
+    onToastsChange = vi.fn();
     toast?.addEventListener(
       ToastEmitterEvent.QUEUE_LIMIT_CHANGE,
       onQueueLimitChange
     );
-    toast?.addEventListener(ToastEmitterEvent.TOASTS_CHANGE, onToastChange);
+    toast?.addEventListener(ToastEmitterEvent.TOASTS_CHANGE, onToastsChange);
   });
 
   afterEach(() => {
@@ -26,9 +30,13 @@ describe('Toast Emitter', () => {
         ToastEmitterEvent.QUEUE_LIMIT_CHANGE,
         onQueueLimitChange
       );
-      toast.removeEventListener(ToastEmitterEvent.TOASTS_CHANGE, onToastChange);
+      toast.removeEventListener(
+        ToastEmitterEvent.TOASTS_CHANGE,
+        onToastsChange
+      );
     }
     toast = null;
+    vi.useRealTimers();
   });
 
   describe(`${ToastEmitterEvent.QUEUE_LIMIT_CHANGE} event`, () => {
@@ -42,13 +50,7 @@ describe('Toast Emitter', () => {
 
   describe(`${ToastEmitterEvent.TOASTS_CHANGE} event`, () => {
     it('dispatches event via show() method', () => {
-      let newToast: Toast = {
-        id: '',
-        message: 'This is a toast message!',
-        duration: 7000,
-        type: 'success',
-        position: 'top-center',
-      };
+      let newToast: Toast = getToastObject();
       toast?.show(
         newToast.message,
         newToast.duration,
@@ -59,17 +61,13 @@ describe('Toast Emitter', () => {
       expect(toast?.toasts.length).toEqual(1);
       newToast.id = toast?.toasts[0].id;
       expect(toast?.toasts[0]).toEqual(newToast);
-      expect(onToastChange).toHaveBeenCalled();
+      expect(onToastsChange).toHaveBeenCalled();
     });
 
-    it('dispatches event via show() method and displays fallback toast massage if message not typeof string', () => {
-      let newToast: Toast = {
-        id: '',
-        message: Symbol('This is a symbol'),
-        duration: 7000,
-        type: 'success',
-        position: 'top-center',
-      };
+    it('dispatches event via show() method and displays fallback toast massage if message not typeof string', async () => {
+      vi.spyOn(toast, 'remove');
+
+      let newToast: Toast = getToastObject(Symbol('This is a symbol'));
       toast?.show(
         newToast.message,
         newToast.duration,
@@ -85,22 +83,19 @@ describe('Toast Emitter', () => {
         `notification: ${newToast.type}`
       );
 
-      let timeoutID = setTimeout(() => {
-        expect(toast?.remove).toHaveBeenCalledWith(newToast);
-        expect(onToastChange).toHaveBeenCalledTimes(2);
-        expect(toast?.toasts.length).toEqual(0);
-      }, newToast.duration);
-      clearTimeout(timeoutID);
+      // Advance time with toast duration
+      vi.advanceTimersByTime(newToast.duration);
+      await vi.runAllTimersAsync(); // Invoking every timer so the nested `setTimeout()` within remove(), which actually removes the toast from the toasts list - bypassing for this test
+
+      newToast.state = 'leave';
+      expect(toast?.remove).toHaveBeenCalledWith(newToast);
+      expect(onToastsChange).toHaveBeenCalledTimes(3);
+      expect(toast.toasts.length).toEqual(0);
     });
 
-    it('dispatches event via remove() method', () => {
-      let newToast: Toast = {
-        id: '',
-        message: 'This is a toast message!',
-        duration: 7000,
-        type: 'success',
-        position: 'top-center',
-      };
+    it('dispatches event via remove() method', async () => {
+      vi.spyOn(toast, 'remove');
+      let newToast: Toast = getToastObject();
       toast?.show(
         newToast.message,
         newToast.duration,
@@ -111,23 +106,31 @@ describe('Toast Emitter', () => {
       newToast.id = toast?.toasts[0].id;
       expect(toast?.toasts[0]).toEqual(newToast);
 
-      let timeoutID = setTimeout(() => {
-        expect(toast?.remove).toHaveBeenCalledWith(newToast);
-        expect(onToastChange).toHaveBeenCalledTimes(2);
-        expect(toast?.toasts.length).toEqual(0);
-      }, newToast.duration);
-      clearTimeout(timeoutID);
+      // Advance time with toast duration
+      vi.advanceTimersByTime(newToast.duration);
+
+      // Toast is now in 'leave' state
+      newToast.state = 'leave';
+      expect(toast?.remove).toHaveBeenCalledWith(newToast);
+      expect(toast?.toasts[0].state).toEqual('leave');
+      expect(onToastsChange).toHaveBeenCalledTimes(2);
+
+      // Advance time with toast animation duration to actually remove the toast from the toasts list
+      vi.advanceTimersByTime(TOAST_ANIMATION_DURATION);
+      await vi.runAllTimersAsync();
+
+      // Toast removed
+      expect(toast.toasts.length).toEqual(0);
+      expect(onToastsChange).toHaveBeenCalledTimes(3);
     });
 
     it(`dispatches ${ToastEmitterEvent.TOASTS_CHANGE} event via show() method for 'Too many notifications' warning`, () => {
-      let queueLimitWarningToast: Toast = {
-        id: '',
-        message:
-          'Too many notifications. Please wait a moment and/or close existing ones.',
-        duration: 7000,
-        type: 'warning',
-        position: 'bottom-center',
-      };
+      let queueLimitWarningToast: Toast = getToastObject(
+        'Too many notifications. Please wait a moment and/or close existing ones.',
+        undefined,
+        'warning',
+        'bottom-center'
+      );
       for (let i = 0; i <= toast._queueLimit - 1; i++) {
         toast?.show('This is a toast message!', 7000, 'success', 'top-center');
       }
