@@ -13,34 +13,34 @@ type Toast = {
     state: ToastState;
 };
 declare enum ToastEmitterEvent {
-    QUEUE_LIMIT_CHANGE = "queue-limit-change",
+    TOASTS_LIMIT_CHANGE = "toasts-limit-change",
     TOASTS_CHANGE = "toasts-change"
 }
 
 declare class ToastEmitter extends EventTarget {
-    private _queueLimit;
+    private _toastsLimit;
     private _toasts;
     get toasts(): Toast[];
-    set queueLimit(value: string | number);
+    set toastsLimit(value: string | number);
     show(message: string, duration?: number, type?: ToastKind, position?: ToastPosition): void;
     remove(toast: Toast): void;
-    private emitQueueLimitChange;
+    private emitToastsLimitChange;
     private emitToastsChange;
 }
 declare const toast: ToastEmitter;
 
 declare class ToasterElement extends LitElement {
-    set queueLimit(value: number | undefined);
-    get queueLimit(): number | undefined;
+    set toastsLimit(value: number | undefined);
+    get toastsLimit(): number | undefined;
     private _toastsList;
-    private _queueLimit?;
+    private _toastsLimit?;
     connectedCallback(): void;
     disconnectedCallback(): void;
     private get groupedToasts();
     render(): TemplateResult;
     private getToastIcon;
     private dismiss;
-    private onQueueLimitChange;
+    private onToastsLimitChange;
     private onToastsChange;
     static styles: lit.CSSResult;
 }

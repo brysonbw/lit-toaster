@@ -1,4 +1,4 @@
-/*! lit-toaster v0.2.0 Copyright (c) 2025 Bryson Ward and contributors MIT License*/
+/*! lit-toaster v0.2.1 Copyright (c) 2025 Bryson Ward and contributors MIT License*/
 import { css, LitElement, html } from 'lit';
 import { property, state, customElement } from 'lit/decorators.js';
 
@@ -15,7 +15,7 @@ typeof SuppressedError === "function" ? SuppressedError : function (error, suppr
 
 var ToastEmitterEvent;
 (function (ToastEmitterEvent) {
-    ToastEmitterEvent["QUEUE_LIMIT_CHANGE"] = "queue-limit-change";
+    ToastEmitterEvent["TOASTS_LIMIT_CHANGE"] = "toasts-limit-change";
     ToastEmitterEvent["TOASTS_CHANGE"] = "toasts-change";
 })(ToastEmitterEvent || (ToastEmitterEvent = {}));
 
@@ -38,28 +38,28 @@ const GUID = (() => {
 class ToastEmitter extends EventTarget {
     constructor() {
         super(...arguments);
-        this._queueLimit = DEFAULT_TOASTS_LIMIT;
+        this._toastsLimit = DEFAULT_TOASTS_LIMIT;
         this._toasts = [];
     }
     get toasts() {
         return this._toasts;
     }
-    set queueLimit(value) {
-        let updatedQueueLimit = this._queueLimit;
+    set toastsLimit(value) {
+        let updatedToastsLimit = this._toastsLimit;
         if (typeof value === 'number') {
-            updatedQueueLimit = value;
+            updatedToastsLimit = value;
         }
         if (typeof value === 'string') {
             const valueToNum = Number(value);
             if (!isNaN(valueToNum)) {
-                updatedQueueLimit = valueToNum;
+                updatedToastsLimit = valueToNum;
             }
         }
-        this._queueLimit = Math.max(0, updatedQueueLimit);
-        this.emitQueueLimitChange();
+        this._toastsLimit = Math.max(0, updatedToastsLimit);
+        this.emitToastsLimitChange();
     }
     show(message, duration = 7000, type = 'success', position = 'top-center') {
-        if (this._queueLimit > 0 && this._toasts.length + 1 >= this._queueLimit) {
+        if (this._toastsLimit > 0 && this._toasts.length + 1 >= this._toastsLimit) {
             const existingWarningToast = this._toasts.find((t) => t.type === 'warning' &&
                 t.message.toLowerCase().includes('too many notifications'));
             if (!existingWarningToast) {
@@ -71,7 +71,7 @@ class ToastEmitter extends EventTarget {
                     position: 'bottom-center',
                     state: 'enter',
                 };
-                this._toasts = [...this._toasts, warningToast];
+                this._toasts = [warningToast, ...this._toasts];
                 this.emitToastsChange();
                 setTimeout(() => this.remove(warningToast), duration);
             }
@@ -104,9 +104,9 @@ class ToastEmitter extends EventTarget {
             this.emitToastsChange();
         }, TOAST_ANIMATION_DURATION);
     }
-    emitQueueLimitChange() {
-        this.dispatchEvent(new CustomEvent(ToastEmitterEvent.QUEUE_LIMIT_CHANGE, {
-            detail: this._queueLimit,
+    emitToastsLimitChange() {
+        this.dispatchEvent(new CustomEvent(ToastEmitterEvent.TOASTS_LIMIT_CHANGE, {
+            detail: this._toastsLimit,
         }));
     }
     emitToastsChange() {
@@ -121,10 +121,10 @@ let ToasterElement = class ToasterElement extends LitElement {
     constructor() {
         super(...arguments);
         this._toastsList = [];
-        this.onQueueLimitChange = (event) => {
+        this.onToastsLimitChange = (event) => {
             if (event instanceof CustomEvent) {
-                if (event.detail !== undefined && this._queueLimit !== event.detail) {
-                    this._queueLimit = event.detail;
+                if (event.detail !== undefined && this._toastsLimit !== event.detail) {
+                    this._toastsLimit = event.detail;
                     this.requestUpdate();
                 }
             }
@@ -136,23 +136,23 @@ let ToasterElement = class ToasterElement extends LitElement {
             }
         };
     }
-    set queueLimit(value) {
-        this._queueLimit = value;
+    set toastsLimit(value) {
+        this._toastsLimit = value;
         if (value !== undefined) {
-            toast.queueLimit = value;
+            toast.toastsLimit = value;
         }
     }
-    get queueLimit() {
-        return this._queueLimit;
+    get toastsLimit() {
+        return this._toastsLimit;
     }
     connectedCallback() {
         super.connectedCallback();
-        toast.addEventListener(ToastEmitterEvent.QUEUE_LIMIT_CHANGE, this.onQueueLimitChange);
+        toast.addEventListener(ToastEmitterEvent.TOASTS_LIMIT_CHANGE, this.onToastsLimitChange);
         toast.addEventListener(ToastEmitterEvent.TOASTS_CHANGE, this.onToastsChange);
     }
     disconnectedCallback() {
         super.disconnectedCallback();
-        toast.removeEventListener(ToastEmitterEvent.QUEUE_LIMIT_CHANGE, this.onQueueLimitChange);
+        toast.removeEventListener(ToastEmitterEvent.TOASTS_LIMIT_CHANGE, this.onToastsLimitChange);
         toast.removeEventListener(ToastEmitterEvent.TOASTS_CHANGE, this.onToastsChange);
     }
     get groupedToasts() {
@@ -398,13 +398,13 @@ ToasterElement.styles = css `
   `;
 __decorate([
     property({ type: Number, attribute: false })
-], ToasterElement.prototype, "queueLimit", null);
+], ToasterElement.prototype, "toastsLimit", null);
 __decorate([
     state()
 ], ToasterElement.prototype, "_toastsList", void 0);
 __decorate([
     state()
-], ToasterElement.prototype, "_queueLimit", void 0);
+], ToasterElement.prototype, "_toastsLimit", void 0);
 ToasterElement = __decorate([
     customElement('app-toaster')
 ], ToasterElement);

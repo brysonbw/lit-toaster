@@ -1,6 +1,6 @@
 {
   "name": "lit-toaster",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "engines": {
     "node": ">=20",
     "npm": ">=9.6.3",

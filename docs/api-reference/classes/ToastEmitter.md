@@ -26,26 +26,6 @@
 
 ## Accessors
 
-### queueLimit
-
-#### Set Signature
-
-> **set** **queueLimit**(`value`): `void`
-
-Set toasts queue limit
-
-##### Parameters
-
-###### value
-
-`string` | `number`
-
-##### Returns
-
-`void`
-
-***
-
 ### toasts
 
 #### Get Signature
@@ -57,6 +37,26 @@ Get toasts
 ##### Returns
 
 [`Toast`](../type-aliases/Toast.md)[]
+
+***
+
+### toastsLimit
+
+#### Set Signature
+
+> **set** **toastsLimit**(`value`): `void`
+
+Set toasts limit
+
+##### Parameters
+
+###### value
+
+`string` | `number`
+
+##### Returns
+
+`void`
 
 ## Methods
 
