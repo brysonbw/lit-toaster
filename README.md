@@ -82,9 +82,9 @@ declare global {
 
 ## Toaster element properties
 
-| Name         | Attribute |
-| ------------ | --------- |
-| `queueLimit` | false     |
+| Name          | Attribute |
+| ------------- | --------- |
+| `toastsLimit` | false     |
 
 ## Documentation
 

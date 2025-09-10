@@ -3,7 +3,7 @@ import { Toast, ToastEmitterEvent, ToastKind, ToastPosition } from './types.ts';
 import { GUID } from './utils.ts';
 
 export class ToastEmitter extends EventTarget {
-  private _queueLimit: number = DEFAULT_TOASTS_LIMIT;
+  private _toastsLimit: number = DEFAULT_TOASTS_LIMIT;
   private _toasts: Toast[] = [];
 
   /**
@@ -13,23 +13,23 @@ export class ToastEmitter extends EventTarget {
     return this._toasts;
   }
 
-  /** Set toasts queue limit */
-  public set queueLimit(value: string | number) {
-    let updatedQueueLimit = this._queueLimit;
+  /** Set toasts limit */
+  public set toastsLimit(value: string | number) {
+    let updatedToastsLimit = this._toastsLimit;
 
     if (typeof value === 'number') {
-      updatedQueueLimit = value;
+      updatedToastsLimit = value;
     }
 
     if (typeof value === 'string') {
       const valueToNum = Number(value);
       if (!isNaN(valueToNum)) {
-        updatedQueueLimit = valueToNum;
+        updatedToastsLimit = valueToNum;
       }
     }
 
-    this._queueLimit = Math.max(0, updatedQueueLimit); // Set any negative value to 0
-    this.emitQueueLimitChange();
+    this._toastsLimit = Math.max(0, updatedToastsLimit); // Set any negative value to 0
+    this.emitToastsLimitChange();
   }
 
   /**
@@ -45,8 +45,8 @@ export class ToastEmitter extends EventTarget {
     type: ToastKind = 'success',
     position: ToastPosition = 'top-center'
   ): void {
-    // Check if next toast added will hit the queue limit. Less than 0 = no limit
-    if (this._queueLimit > 0 && this._toasts.length + 1 >= this._queueLimit) {
+    // Check if next toast added will hit the toasts limit. Less than 0 = no limit
+    if (this._toastsLimit > 0 && this._toasts.length + 1 >= this._toastsLimit) {
       // Only add a warning toast if one isn't already present
       const existingWarningToast = this._toasts.find(
         (t) =>
@@ -64,7 +64,7 @@ export class ToastEmitter extends EventTarget {
           position: 'bottom-center',
           state: 'enter',
         };
-        this._toasts = [...this._toasts, warningToast];
+        this._toasts = [warningToast, ...this._toasts];
         this.emitToastsChange();
         setTimeout(() => this.remove(warningToast), duration);
       }
@@ -110,12 +110,12 @@ export class ToastEmitter extends EventTarget {
   }
 
   /**
-   * Dispatch `queue-limit-change` event
+   * Dispatch `toasts-limit-change` event
    */
-  private emitQueueLimitChange(): void {
+  private emitToastsLimitChange(): void {
     this.dispatchEvent(
-      new CustomEvent(ToastEmitterEvent.QUEUE_LIMIT_CHANGE, {
-        detail: this._queueLimit,
+      new CustomEvent(ToastEmitterEvent.TOASTS_LIMIT_CHANGE, {
+        detail: this._toastsLimit,
       })
     );
   }
