@@ -6,12 +6,15 @@ export type ToastPosition =
   | 'bottom-left'
   | 'bottom-right'
   | 'bottom-center';
+/** The animation state of a toast */
+export type ToastState = 'enter' | 'leave';
 export type Toast = {
   id: string;
   message: string;
   duration: number;
   type: ToastKind;
   position: ToastPosition;
+  state: ToastState;
 };
 /**
  * Enum representing the custom event types emitted by the `ToastEmitter`
