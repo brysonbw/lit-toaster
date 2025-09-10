@@ -1,4 +1,4 @@
-import { DEFAULT_TOASTS_LIMIT } from './constants.ts';
+import { DEFAULT_TOASTS_LIMIT, TOAST_ANIMATION_DURATION } from './constants.ts';
 import { Toast, ToastEmitterEvent, ToastKind, ToastPosition } from './types.ts';
 import { GUID } from './utils.ts';
 
@@ -62,6 +62,7 @@ export class ToastEmitter extends EventTarget {
           duration,
           type: 'warning',
           position: 'bottom-center',
+          state: 'enter',
         };
         this._toasts = [...this._toasts, warningToast];
         this.emitToastsChange();
@@ -80,9 +81,10 @@ export class ToastEmitter extends EventTarget {
       duration,
       type,
       position,
+      state: 'enter',
     };
 
-    this._toasts = [...this._toasts, newToast];
+    this._toasts = [newToast, ...this._toasts];
     this.emitToastsChange();
 
     // Toast will not auto remove if duration `-1` - onClick to close toast
@@ -93,11 +95,18 @@ export class ToastEmitter extends EventTarget {
 
   /**
    * Remove toast
-   * @param t
+   * @param toast
    */
-  public remove(t: Toast): void {
-    this._toasts = this._toasts.filter((item) => item !== t);
+  public remove(toast: Toast): void {
+    const index = this._toasts.indexOf(toast);
+    if (index === -1) return;
+    this._toasts[index as number].state = 'leave';
     this.emitToastsChange();
+
+    setTimeout(() => {
+      this._toasts = this._toasts.filter((item) => item !== toast);
+      this.emitToastsChange();
+    }, TOAST_ANIMATION_DURATION);
   }
 
   /**
