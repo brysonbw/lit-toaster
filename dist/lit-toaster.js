@@ -1,4 +1,4 @@
-/*! lit-toaster v0.1.2 Copyright (c) 2025 Bryson Ward and contributors MIT License*/
+/*! lit-toaster v0.2.0 Copyright (c) 2025 Bryson Ward and contributors MIT License*/
 import { css, LitElement, html } from 'lit';
 import { property, state, customElement } from 'lit/decorators.js';
 
@@ -26,6 +26,7 @@ const TOAST_TYPES = [
     'warning',
     'info',
 ];
+const TOAST_ANIMATION_DURATION = 200;
 
 const GUID = (() => {
     let count = 0;
@@ -68,6 +69,7 @@ class ToastEmitter extends EventTarget {
                     duration,
                     type: 'warning',
                     position: 'bottom-center',
+                    state: 'enter',
                 };
                 this._toasts = [...this._toasts, warningToast];
                 this.emitToastsChange();
@@ -83,16 +85,24 @@ class ToastEmitter extends EventTarget {
             duration,
             type,
             position,
+            state: 'enter',
         };
-        this._toasts = [...this._toasts, newToast];
+        this._toasts = [newToast, ...this._toasts];
         this.emitToastsChange();
         if (duration > 0) {
             setTimeout(() => this.remove(newToast), duration);
         }
     }
-    remove(t) {
-        this._toasts = this._toasts.filter((item) => item !== t);
+    remove(toast) {
+        const index = this._toasts.indexOf(toast);
+        if (index === -1)
+            return;
+        this._toasts[index].state = 'leave';
         this.emitToastsChange();
+        setTimeout(() => {
+            this._toasts = this._toasts.filter((item) => item !== toast);
+            this.emitToastsChange();
+        }, TOAST_ANIMATION_DURATION);
     }
     emitQueueLimitChange() {
         this.dispatchEvent(new CustomEvent(ToastEmitterEvent.QUEUE_LIMIT_CHANGE, {
@@ -167,7 +177,7 @@ let ToasterElement = class ToasterElement extends LitElement {
             ${toasts.map((toast) => html `
                 <div
                   id="toast-${toast.type}-${toast.id}"
-                  class="toast"
+                  class="toast ${toast.state}"
                   role="alert"
                 >
                   <div class="toast-${toast.type} toast-icon">
@@ -232,7 +242,7 @@ ToasterElement.styles = css `
         0 1px 3px #0000001a;
     }
 
-    /** Screen ready only */
+    /** Screen reader only */
     .sr-only {
       position: absolute;
       width: 1px;
@@ -343,6 +353,39 @@ ToasterElement.styles = css `
       right: 10px;
       align-items: flex-end;
       flex-direction: column-reverse;
+    }
+
+    .toast.enter {
+      animation: onToastEnter 250ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .toast.leave {
+      animation: onToastLeave 200ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes onToastEnter {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes onToastLeave {
+      0% {
+        opacity: 1;
+        transform: translateY(0) scaleY(1);
+      }
+      50% {
+        transform: translateY(4px) scaleY(0.95);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(24px) scaleY(0.8);
+      }
     }
 
     /* Apply dark mode styles if user’s system or browser theme is set to 'dark' */

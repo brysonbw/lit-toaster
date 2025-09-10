@@ -118,13 +118,13 @@ The **`dispatchEvent()`** method of the EventTarget sends an Event to the object
 
 ### remove()
 
-> **remove**(`t`): `void`
+> **remove**(`toast`): `void`
 
 Remove toast
 
 #### Parameters
 
-##### t
+##### toast
 
 [`Toast`](../type-aliases/Toast.md)
 

@@ -34,6 +34,12 @@
 
 ***
 
+### state
+
+> **state**: [`ToastState`](ToastState.md)
+
+***
+
 ### type
 
 > **type**: [`ToastKind`](ToastKind.md)

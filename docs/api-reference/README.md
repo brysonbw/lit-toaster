@@ -17,6 +17,7 @@
 - [Toast](type-aliases/Toast.md)
 - [ToastKind](type-aliases/ToastKind.md)
 - [ToastPosition](type-aliases/ToastPosition.md)
+- [ToastState](type-aliases/ToastState.md)
 
 ## Variables
 

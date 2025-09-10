@@ -3,12 +3,14 @@ import { LitElement, TemplateResult } from 'lit';
 
 type ToastKind = 'success' | 'error' | 'warning' | 'info';
 type ToastPosition = 'top-left' | 'top-right' | 'top-center' | 'bottom-left' | 'bottom-right' | 'bottom-center';
+type ToastState = 'enter' | 'leave';
 type Toast = {
     id: string;
     message: string;
     duration: number;
     type: ToastKind;
     position: ToastPosition;
+    state: ToastState;
 };
 declare enum ToastEmitterEvent {
     QUEUE_LIMIT_CHANGE = "queue-limit-change",
@@ -21,7 +23,7 @@ declare class ToastEmitter extends EventTarget {
     get toasts(): Toast[];
     set queueLimit(value: string | number);
     show(message: string, duration?: number, type?: ToastKind, position?: ToastPosition): void;
-    remove(t: Toast): void;
+    remove(toast: Toast): void;
     private emitQueueLimitChange;
     private emitToastsChange;
 }
@@ -49,4 +51,4 @@ declare global {
 }
 
 export { ToastEmitterEvent, ToasterElement, toast };
-export type { Toast, ToastKind, ToastPosition };
+export type { Toast, ToastKind, ToastPosition, ToastState };
