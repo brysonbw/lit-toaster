@@ -7,3 +7,4 @@ export const TOAST_TYPES: readonly ToastKind[] = [
   'warning',
   'info',
 ];
+export const TOAST_ANIMATION_DURATION = 200; // In milliseconds

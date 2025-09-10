@@ -1,5 +1,5 @@
 <div align="center">
-<img alt="react-hot-toast - Try it out" src="https://res.cloudinary.com/ddlhtsgmp/image/upload/w_300,h_300,c_fill,r_10/v1755055178/lit-toaster-logo-full.png"/>
+<img alt="lit toaster logo" src="https://res.cloudinary.com/ddlhtsgmp/image/upload/w_300,h_300,c_fill,r_10/v1755055178/lit-toaster-logo-full.png"/>
 </div>
 
 <br />

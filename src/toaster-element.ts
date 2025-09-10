@@ -79,7 +79,7 @@ export class ToasterElement extends LitElement {
               (toast) => html`
                 <div
                   id="toast-${toast.type}-${toast.id}"
-                  class="toast"
+                  class="toast ${toast.state}"
                   role="alert"
                 >
                   <div class="toast-${toast.type} toast-icon">
@@ -183,7 +183,7 @@ export class ToasterElement extends LitElement {
         0 1px 3px #0000001a;
     }
 
-    /** Screen ready only */
+    /** Screen reader only */
     .sr-only {
       position: absolute;
       width: 1px;
@@ -294,6 +294,39 @@ export class ToasterElement extends LitElement {
       right: 10px;
       align-items: flex-end;
       flex-direction: column-reverse;
+    }
+
+    .toast.enter {
+      animation: onToastEnter 250ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .toast.leave {
+      animation: onToastLeave 200ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes onToastEnter {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes onToastLeave {
+      0% {
+        opacity: 1;
+        transform: translateY(0) scaleY(1);
+      }
+      50% {
+        transform: translateY(4px) scaleY(0.95);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(24px) scaleY(0.8);
+      }
     }
 
     /* Apply dark mode styles if user’s system or browser theme is set to 'dark' */
