@@ -62,7 +62,9 @@ export class MyElement extends LitElement {
         type="button"
         @click=${(): void =>
           toast.show("Here's your toast - peace and much love.")}
-      ></button>
+      >
+        Create toast
+      </button>
     </div>`;
   }
 
