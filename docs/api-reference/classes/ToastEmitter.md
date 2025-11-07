@@ -76,7 +76,7 @@ The **`addEventListener()`** method of the EventTarget interface sets up a funct
 
 ##### callback
 
-`null` | `EventListenerOrEventListenerObject`
+`EventListenerOrEventListenerObject` | `null`
 
 ##### options?
 
@@ -150,7 +150,7 @@ The **`removeEventListener()`** method of the EventTarget interface removes an e
 
 ##### callback
 
-`null` | `EventListenerOrEventListenerObject`
+`EventListenerOrEventListenerObject` | `null`
 
 ##### options?
 
