@@ -59,7 +59,7 @@ jobs:
         with:
           run: node ./bin/format-size-report.js
       - name: Create pull request
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@v8
         id: cpr
         with:
           branch: release
