@@ -52,10 +52,10 @@
     "Bryson Ward (https://github.com/brysonbw)"
   ],
   "peerDependencies": {
-    "lit": "^3.3.1"
+    "lit": "^3.3.2"
   },
   "dependencies": {
-    "lit": "^3.3.1"
+    "lit": "^3.3.2"
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^16.0.3",
@@ -63,28 +63,28 @@
     "@size-limit/file": "^12.0.0",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/user-event": "^14.6.1",
-    "@types/eslint-plugin-security": "^3.0.0",
+    "@types/eslint-plugin-security": "^3.0.1",
     "@types/jest": "^30.0.0",
-    "@vitest/coverage-v8": "^4.0.15",
+    "@vitest/coverage-v8": "^4.0.18",
     "auto-changelog": "^2.5.0",
     "eslint": "^9.39.2",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-lit": "^2.1.1",
-    "eslint-plugin-prettier": "^5.5.4",
+    "eslint-plugin-prettier": "^5.5.5",
     "eslint-plugin-security": "^3.0.1",
-    "jsdom": "^27.3.0",
+    "jsdom": "^27.4.0",
     "patch-package": "^8.0.1",
-    "prettier": "^3.7.4",
-    "release-it": "^19.1.0",
-    "rollup": "^4.53.3",
+    "prettier": "^3.8.1",
+    "release-it": "^19.2.4",
+    "rollup": "^4.56.0",
     "rollup-plugin-cleanup": "^3.2.1",
     "rollup-plugin-delete": "^3.0.2",
     "rollup-plugin-dts": "^6.3.0",
     "size-limit": "^12.0.0",
-    "typedoc": "^0.28.15",
+    "typedoc": "^0.28.16",
     "typedoc-plugin-markdown": "^4.9.0",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.49.0",
+    "typescript-eslint": "^8.53.1",
     "vitest": "^4.0.8"
   },
   "release-it": {
