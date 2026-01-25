@@ -339,6 +339,13 @@ export class ToasterElement extends LitElement {
   `;
 }
 
+/**
+ * Forces this file to be treated as a module.
+ * Temp fix: this prevents Rollup from throwing "global is not defined" error
+ * when generating type declarations for files without explicit exports.
+ */
+export {};
+
 declare global {
   interface HTMLElementTagNameMap {
     'app-toaster': ToasterElement;
