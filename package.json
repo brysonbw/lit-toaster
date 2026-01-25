@@ -2,8 +2,8 @@
   "name": "lit-toaster",
   "version": "0.2.5",
   "engines": {
-    "node": ">=22",
-    "npm": ">=10.9.3",
+    "node": ">=24",
+    "npm": ">=11.6.2",
     "yarn": "please use npm",
     "pnpm": "please use npm"
   },
