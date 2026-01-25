@@ -44,6 +44,7 @@ declare class ToasterElement extends LitElement {
     private onToastsChange;
     static styles: lit.CSSResult;
 }
+
 declare global {
     interface HTMLElementTagNameMap {
         'app-toaster': ToasterElement;
