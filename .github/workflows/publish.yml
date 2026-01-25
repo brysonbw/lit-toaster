@@ -5,7 +5,7 @@ on:
       - closed
     branches:
       - main
-      - "v**"
+      - 'v**'
   workflow_dispatch:
 jobs:
   publish:
@@ -15,7 +15,7 @@ jobs:
       contents: write
       id-token: write
     steps:
-      - name: "Release PR info"
+      - name: 'Release PR info'
         if: github.event_name != 'workflow_dispatch'
         run: echo "PR ${{ github.event.number }}"
       - uses: actions/checkout@v6
@@ -35,14 +35,14 @@ jobs:
         id: extract-release-notes
         uses: ffurrer2/extract-release-notes@v3
       # Tag Release
-      - name: "Push tag v${{ steps.package-version.outputs.current-version }}"
+      - name: 'Push tag v${{ steps.package-version.outputs.current-version }}'
         uses: rickstaa/action-create-tag@v1
         id: tag_version
         with:
-          tag: "v${{ steps.package-version.outputs.current-version }}"
+          tag: 'v${{ steps.package-version.outputs.current-version }}'
       # Resolve NPM Tag
       - name: NPM TAG
-        id: "npm_tag"
+        id: 'npm_tag'
         run: |
           version="${{ steps.package-version.outputs.current-version }}"
           if [[ "$version" == *-* ]]; then
@@ -55,11 +55,11 @@ jobs:
         run: |
           echo "tag=${{ steps.npm_tag.outputs.tag || 'latest' }}" >> $GITHUB_OUTPUT
       # GitHub Release
-      - name: "Create a GitHub release v${{ steps.package-version.outputs.current-version }}"
+      - name: 'Create a GitHub release v${{ steps.package-version.outputs.current-version }}'
         uses: ncipollo/release-action@v1
         with:
-          tag: "v${{ steps.package-version.outputs.current-version }}"
-          name: "Release v${{ steps.package-version.outputs.current-version }}"
+          tag: 'v${{ steps.package-version.outputs.current-version }}'
+          name: 'Release v${{ steps.package-version.outputs.current-version }}'
           body: |
             ## Release notes:
             ${{ steps.extract-release-notes.outputs.release_notes }}

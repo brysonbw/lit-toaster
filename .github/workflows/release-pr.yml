@@ -64,8 +64,8 @@ jobs:
         with:
           branch: release
           delete-branch: true
-          commit-message: "chore(release): v${{ steps.package-version.outputs.current-version}}"
-          title: "[Release] v${{ steps.package-version.outputs.current-version}}"
+          commit-message: 'chore(release): v${{ steps.package-version.outputs.current-version}}'
+          title: '[Release] v${{ steps.package-version.outputs.current-version}}'
           body: |
             ${{ steps.body.outputs.stdout }}
             ## Release notes:
