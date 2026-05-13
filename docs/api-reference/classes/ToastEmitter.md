@@ -52,7 +52,7 @@ Set toasts limit
 
 ###### value
 
-`string` | `number`
+`string` \| `number`
 
 ##### Returns
 
@@ -76,11 +76,11 @@ The **`addEventListener()`** method of the EventTarget interface sets up a funct
 
 ##### callback
 
-`EventListenerOrEventListenerObject` | `null`
+`EventListenerOrEventListenerObject` \| `null`
 
 ##### options?
 
-`boolean` | `AddEventListenerOptions`
+`boolean` \| `AddEventListenerOptions`
 
 #### Returns
 
@@ -150,11 +150,11 @@ The **`removeEventListener()`** method of the EventTarget interface removes an e
 
 ##### callback
 
-`EventListenerOrEventListenerObject` | `null`
+`EventListenerOrEventListenerObject` \| `null`
 
 ##### options?
 
-`boolean` | `EventListenerOptions`
+`boolean` \| `EventListenerOptions`
 
 #### Returns
 
@@ -168,7 +168,7 @@ The **`removeEventListener()`** method of the EventTarget interface removes an e
 
 ### show()
 
-> **show**(`message`, `duration`, `type`, `position`): `void`
+> **show**(`message`, `duration?`, `type?`, `position?`): `void`
 
 Show toast notification
 
@@ -178,15 +178,15 @@ Show toast notification
 
 `string`
 
-##### duration
+##### duration?
 
 `number` = `7000`
 
-##### type
+##### type?
 
 [`ToastKind`](../type-aliases/ToastKind.md) = `'success'`
 
-##### position
+##### position?
 
 [`ToastPosition`](../type-aliases/ToastPosition.md) = `'top-center'`
 
