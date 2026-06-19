@@ -52,10 +52,10 @@
     "Bryson Ward (https://github.com/brysonbw)"
   ],
   "peerDependencies": {
-    "lit": "^3.3.2"
+    "lit": "^3.3.3"
   },
   "dependencies": {
-    "lit": "^3.3.2"
+    "lit": "^3.3.3"
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^16.0.3",
@@ -66,25 +66,25 @@
     "@types/eslint-plugin-security": "^3.0.1",
     "@types/jest": "^30.0.0",
     "@vitest/coverage-v8": "^4.0.18",
-    "auto-changelog": "^2.5.1",
+    "auto-changelog": "^2.6.0",
     "eslint": "^9.39.4",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-lit": "^2.3.1",
-    "eslint-plugin-prettier": "^5.5.5",
+    "eslint-plugin-prettier": "^5.5.6",
     "eslint-plugin-security": "^3.0.1",
     "jsdom": "^27.4.0",
     "patch-package": "^8.0.1",
-    "prettier": "^3.8.3",
+    "prettier": "^3.8.4",
     "release-it": "^19.2.4",
-    "rollup": "^4.60.3",
+    "rollup": "^4.62.2",
     "rollup-plugin-cleanup": "^3.2.1",
     "rollup-plugin-delete": "^3.0.2",
     "rollup-plugin-dts": "^6.4.1",
     "size-limit": "^12.0.0",
     "typedoc": "^0.28.19",
-    "typedoc-plugin-markdown": "^4.11.0",
+    "typedoc-plugin-markdown": "^4.12.0",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.59.3",
+    "typescript-eslint": "^8.61.1",
     "vitest": "^4.0.8"
   },
   "release-it": {
