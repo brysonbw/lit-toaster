@@ -2,10 +2,7 @@
   "name": "lit-toaster",
   "version": "0.2.7",
   "engines": {
-    "node": ">=24",
-    "npm": ">=11.6.2",
-    "yarn": "please use npm",
-    "pnpm": "please use npm"
+    "node": ">=24"
   },
   "description": "Notifications for Lit Web Components",
   "type": "module",
@@ -17,7 +14,7 @@
     "README.md"
   ],
   "scripts": {
-    "build:full": "npm run build && npm run docs",
+    "build:full": "pnpm run build && pnpm run docs",
     "build": "rollup -c",
     "test": "vitest run",
     "coverage": "vitest run --coverage",
@@ -85,6 +82,7 @@
     "typedoc-plugin-markdown": "^4.12.0",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.61.1",
+    "vite": "^8.0.16",
     "vitest": "^4.0.8"
   },
   "release-it": {
@@ -106,11 +104,11 @@
     },
     "hooks": {
       "before:init": [
-        "npm run lint",
-        "npm run test"
+        "pnpm run lint",
+        "pnpm run test"
       ],
-      "after:bump": "npm run build:full && git add ./dist ./docs/api-reference ./package-lock.json",
-      "before:release": "npm run release:changelog:fix",
+      "after:bump": "pnpm run build:full && git add ./dist ./docs/api-reference ./package-lock.json",
+      "before:release": "pnpm run release:changelog:fix",
       "after:release": "echo Successfully released ${name} v${version} to ${repo.repository}."
     }
   },

@@ -48,10 +48,21 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node-version }}
-          cache: npm
+          cache: pnpm
+
+      - name: Install pnpm
         if: steps.changed-ignored.outputs.only_modified == 'false'
-      - run: npm ci
+        uses: pnpm/action-setup@v6
+        with:
+          version: 10
+          cache: true
+
+      - name: Install dependencies
         if: steps.changed-ignored.outputs.only_modified == 'false'
-      - run: npm run lint
+        run: pnpm install --frozen-lockfile
+
+      - name: Run Lint
         if: steps.changed-ignored.outputs.only_modified == 'false'
-      - run: echo "✅ Linting completed successfully on Node.js ${{ matrix.node-version }}!"
+        run: |
+          pnpm run lint
+          echo "✅ Linting completed successfully on Node.js ${{ matrix.node-version }}!"
