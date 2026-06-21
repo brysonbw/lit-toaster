@@ -15,6 +15,11 @@ on:
         type: boolean
         description: Prerelease
         default: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   releaseIt:
     runs-on: ubuntu-latest
@@ -43,7 +48,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TYPE_ARG: ${{ fromJSON('{"auto":"", "patch":"patch", "minor":"minor", "major":"major"}')[github.event.inputs.type] }}
           BETA_ARG: ${{ github.event.inputs.beta == 'true' && '--preRelease=beta' || '' }}
-        run: pnpm run release -- $TYPE_ARG --ci --verbose --no-git.push --no-git.commit --no-git.tag --no-github $BETA_ARG $DRY_ARG
+        run: pnpm run release -- $TYPE_ARG --ci --verbose --no-git --no-github $BETA_ARG $DRY_ARG
       - name: Show git status
         if: failure()
         run: git status && git diff
@@ -71,7 +76,7 @@ jobs:
           branch: release
           delete-branch: true
           commit-message: 'chore(release): v${{ steps.package-version.outputs.current-version}}'
-          title: '[Release] v${{ steps.package-version.outputs.current-version}}'
+          title: 'chore(release): v${{ steps.package-version.outputs.current-version}}'
           body: |
             ${{ steps.body.outputs.stdout }}
             ## Release notes:
