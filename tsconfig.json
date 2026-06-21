@@ -15,7 +15,8 @@
     "allowJs": true,
     "removeComments": true,
     "sourceMap": false,
-    "outDir": "dist"
+    "outDir": "dist",
+    "importHelpers": true
   },
   "include": ["src/**/*"],
   "exclude": ["**/*.test.ts", "dist", "node_modules"]

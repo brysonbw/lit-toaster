@@ -64,7 +64,7 @@ For instructions on setting up your environment, see the [setup](#setup---git-gi
 
 ## Setup - Git, GitHub, and Node
 
-If you don't already have [Git](https://git-scm.com/) installed, install it first. You will need it to contribute. You will also need to install [Node](https://nodejs.org/en) and [npm](https://www.npmjs.com/).
+If you don't already have [Git](https://git-scm.com/) installed, install it first. You will need it to contribute. You will also need to install [Node](https://nodejs.org/en) and [pnpm](https://pnpm.io/installation).
 
 ### Installation
 
@@ -75,7 +75,7 @@ If you don't already have [Git](https://git-scm.com/) installed, install it firs
 5. [Configure the remote repository for your fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/configuring-a-remote-repository-for-a-fork).
 6. Install dependencies:
    ```bash
-   npm install
+   pnpm install
    ```
 7. Open the lit-toaster folder in your favorite editor. If you don't have one, try [Visual Studio Code](https://code.visualstudio.com/)
 
@@ -88,7 +88,7 @@ Once you have cloned lit-toaster, you can lint, format, build, and test the code
 To lint the code, run:
 
 ```bash
-npm run lint
+pnpm run lint
 ```
 
 This will start eslint and check all files for stylistic problems. See [eslint.config.js](./eslint.config.js) file for project config and rules.
@@ -98,7 +98,7 @@ This will start eslint and check all files for stylistic problems. See [eslint.c
 To format the code, run:
 
 ```bash
-npm run format
+pnpm run format
 ```
 
 ### Building
@@ -106,7 +106,7 @@ npm run format
 To compile the lit-toaster source, run:
 
 ```bash
-npm run build
+pnpm run build
 ```
 
 Using [Rollup](https://rollupjs.org/), this will start the TypeScript compiler and output the bundled JavaScript to the `dist` folder.
@@ -116,19 +116,19 @@ Using [Rollup](https://rollupjs.org/), this will start the TypeScript compiler a
 To validate any changes you have made _in all test files_, run:
 
 ```bash
-npm run test
+pnpm run test
 ```
 
 To validate any changes you made _in a specifc file_, run:
 
 ```bash
-npm run test <./folder-path-name/file-name>
+pnpm run test <./folder-path-name/file-name>
 ```
 
 To run code coverage, run:
 
 ```bash
-npm run coverage
+pnpm run coverage
 ```
 
 This will run all tests and output a detailed interactive HTML report, which will be generated in the `./coverage` directory (by default), which can be viewed in a web browser.

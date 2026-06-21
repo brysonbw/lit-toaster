@@ -27,6 +27,10 @@
 
 ```bash
 npm install lit-toaster
+# or
+yarn add lit-toaster
+# or
+pnpm add lit-toaster
 ```
 
 ## Usage

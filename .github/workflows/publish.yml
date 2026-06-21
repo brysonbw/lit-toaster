@@ -27,7 +27,13 @@ jobs:
         with:
           node-version: 24
           registry-url: https://registry.npmjs.org/
-      - run: npm ci
+      - uses: pnpm/action-setup@v6
+        name: Install pnpm
+        with:
+          version: 10
+          cache: true
+      - name: Install dependencies
+        run: pnpm install
       - name: get-npm-version
         id: package-version
         uses: martinbeentjes/npm-get-version-action@main
@@ -65,4 +71,4 @@ jobs:
             ${{ steps.extract-release-notes.outputs.release_notes }}
       # NPM Release
       - name: Publish the release to NPM
-        run: npm publish --provenance --access public --tag ${{ steps.fallback_tag.outputs.tag }}
+        run: pnpm publish --provenance --access public --tag ${{ steps.fallback_tag.outputs.tag }}

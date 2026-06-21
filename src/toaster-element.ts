@@ -1,4 +1,4 @@
-import { LitElement, css, html, type TemplateResult } from 'lit';
+import { CSSResult, LitElement, css, html, type TemplateResult } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { Toast, ToastEmitterEvent, ToastKind, ToastPosition } from './types.ts';
 import { toast } from './toast-emitter.ts';
@@ -156,7 +156,7 @@ export class ToasterElement extends LitElement {
     }
   };
 
-  static styles = css`
+  static styles: CSSResult = css`
     .toast-container {
       position: fixed;
       z-index: 9999;

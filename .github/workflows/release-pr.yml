@@ -30,19 +30,25 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: 24
-          cache: npm
-      - run: npm ci
+          cache: pnpm
+      - uses: pnpm/action-setup@v6
+        name: Install pnpm
+        with:
+          version: 10
+          cache: true
+      - name: Install dependencies
+        run: pnpm install
       - name: Prepare release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TYPE_ARG: ${{ fromJSON('{"auto":"", "patch":"patch", "minor":"minor", "major":"major"}')[github.event.inputs.type] }}
           BETA_ARG: ${{ github.event.inputs.beta == 'true' && '--preRelease=beta' || '' }}
-        run: npm run release -- $TYPE_ARG --ci --verbose --no-git.push --no-git.commit --no-git.tag --no-github $BETA_ARG $DRY_ARG
+        run: pnpm run release -- $TYPE_ARG --ci --verbose --no-git.push --no-git.commit --no-git.tag --no-github $BETA_ARG $DRY_ARG
       - name: Show git status
         if: failure()
         run: git status && git diff
       - name: Add contributors list to CHANGELOG.md
-        run: npm run release:changelog:fix
+        run: pnpm run release:changelog:fix
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: get-npm-version
@@ -52,7 +58,7 @@ jobs:
         id: extract-release-notes
         uses: ffurrer2/extract-release-notes@v3
       - name: Run size-limit
-        run: npm run size
+        run: pnpm run size
       - name: Generate PR body
         id: body
         uses: mathiasvr/command-output@v1
