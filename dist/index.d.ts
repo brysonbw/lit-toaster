@@ -1,5 +1,4 @@
-import * as lit from 'lit';
-import { LitElement, TemplateResult } from 'lit';
+import { LitElement, TemplateResult, CSSResult } from 'lit';
 
 type ToastKind = 'success' | 'error' | 'warning' | 'info';
 type ToastPosition = 'top-left' | 'top-right' | 'top-center' | 'bottom-left' | 'bottom-right' | 'bottom-center';
@@ -42,7 +41,7 @@ declare class ToasterElement extends LitElement {
     private dismiss;
     private onToastsLimitChange;
     private onToastsChange;
-    static styles: lit.CSSResult;
+    static styles: CSSResult;
 }
 
 declare global {

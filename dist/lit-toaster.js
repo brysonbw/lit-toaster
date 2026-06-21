@@ -1,17 +1,7 @@
-/*! lit-toaster v0.2.7 Copyright (c) 2026 Bryson Ward and contributors MIT License*/
+/*! lit-toaster v0.2.8 Copyright (c) 2026 Bryson Ward and contributors MIT License*/
+import { __decorate } from 'tslib';
 import { css, LitElement, html } from 'lit';
 import { property, state, customElement } from 'lit/decorators.js';
-
-function __decorate(decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-}
-typeof SuppressedError === "function" ? SuppressedError : function (error, suppressed, message) {
-    var e = new Error(message);
-    return e.name = "SuppressedError", e.error = error, e.suppressed = suppressed, e;
-};
 
 var ToastEmitterEvent;
 (function (ToastEmitterEvent) {
