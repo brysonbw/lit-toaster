@@ -101,6 +101,14 @@ To format the code, run:
 pnpm run format
 ```
 
+### Format And Lint Fix
+
+To format and fix eslint errors in the code, run:
+
+```bash
+pnpm run flf
+```
+
 ### Building
 
 To compile the lit-toaster source, run:
