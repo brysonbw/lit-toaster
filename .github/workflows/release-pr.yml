@@ -48,7 +48,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TYPE_ARG: ${{ fromJSON('{"auto":"", "patch":"patch", "minor":"minor", "major":"major"}')[github.event.inputs.type] }}
           BETA_ARG: ${{ github.event.inputs.beta == 'true' && '--preRelease=beta' || '' }}
-        run: pnpm run release -- $TYPE_ARG --ci --verbose --no-git --no-github $BETA_ARG $DRY_ARG
+        run: pnpm run release $TYPE_ARG --ci --verbose --no-git --no-github $BETA_ARG
       - name: Show git status
         if: failure()
         run: git status && git diff
