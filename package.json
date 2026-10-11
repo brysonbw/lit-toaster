@@ -114,7 +114,7 @@
       ],
       "after:bump": "pnpm run build:full && git add ./dist ./docs/api-reference ./pnpm-lock.yaml",
       "before:release": "pnpm run release:changelog:fix",
-      "after:release": "echo Successfully released ${name} v${version} to ${repo.repository}."
+      "after:release": "echo Successfully released ${name} v${version}."
     }
   },
   "auto-changelog": {
