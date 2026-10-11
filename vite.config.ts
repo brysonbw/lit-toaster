@@ -9,7 +9,7 @@ export default defineConfig({
     include: ['src/**/*.{spec,test}.{js,ts}'],
     setupFiles: './src/testing/setup.ts',
     coverage: {
-      reporter: ['text', 'html'],
+      reporter: ['text'],
       exclude: [
         ...configDefaults.exclude,
         'src/constants.ts',
