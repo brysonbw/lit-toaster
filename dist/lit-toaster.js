@@ -1,4 +1,4 @@
-/*! lit-toaster v0.2.8 Copyright (c) 2026 Bryson Ward and contributors MIT License*/
+/*! lit-toaster v0.2.9 Copyright (c) 2026 Bryson Ward and contributors MIT License*/
 import { __decorate } from 'tslib';
 import { css, LitElement, html } from 'lit';
 import { property, state, customElement } from 'lit/decorators.js';
