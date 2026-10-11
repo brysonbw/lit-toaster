@@ -18,7 +18,7 @@ jobs:
       - name: 'Release PR info'
         if: github.event_name != 'workflow_dispatch'
         run: echo "PR ${{ github.event.number }}"
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: git config
         run: |
           git config user.name "${GITHUB_ACTOR}"
@@ -27,7 +27,7 @@ jobs:
         name: Install pnpm
         with:
           version: 10
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         with:
           node-version: 24
           registry-url: https://registry.npmjs.org/

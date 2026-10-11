@@ -24,7 +24,7 @@ jobs:
       fail-fast: false
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           persist-credentials: true
       - name: Check changes
@@ -44,7 +44,7 @@ jobs:
           cache: true
       - name: Setup node
         if: steps.changed-ignored.outputs.only_modified == 'false'
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: ${{ matrix.node-version }}
           cache: pnpm
