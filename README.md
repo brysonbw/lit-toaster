@@ -6,8 +6,8 @@
 
 <div align="center">
     <img src="https://img.shields.io/github/v/tag/brysonbw/lit-toaster?style=flat&color=blue&label=npm" alt="github-tag" />
-  <img src="https://img.shields.io/npm/dm/lit-toaster?style=flat&label=npm%20downloads" alt="npm-downloads"/>
-    <img src="https://img.shields.io/github/actions/workflow/status/brysonbw/lit-toaster/test.yml?branch=main&style=flat&logo=github&label=CI" alt="ci-test-build-status" />
+  <img src="https://img.shields.io/npm/dy/lit-toaster?style=flat&label=npm%20downloads" alt="npm-downloads"/>
+    <img src="https://img.shields.io/github/actions/workflow/status/brysonbw/lit-toaster/ci.yml?branch=main&style=flat&logo=github&label=CI" alt="ci-lint-test-code-coverage-status" />
 </a>
 </div>
 <br />
